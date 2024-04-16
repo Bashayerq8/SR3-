@@ -27,7 +27,7 @@ def image_convert_bytes(img):
     return buffer.getvalue()
 
 
-def resize_multiple(img, sizes=(16, 128), resample=Image.BICUBIC, lmdb_save=False):
+def resize_multiple(img, sizes=(114,480), resample=Image.BICUBIC, lmdb_save=False):
     lr_img = resize_and_convert(img, sizes[0], resample)
     hr_img = resize_and_convert(img, sizes[1], resample)
     sr_img = resize_and_convert(lr_img, sizes[1], resample)
@@ -97,7 +97,7 @@ def all_threads_inactive(worker_threads):
             return False
     return True
 
-def prepare(img_path, out_path, n_worker, sizes=(16, 128), resample=Image.BICUBIC, lmdb_save=False):
+def prepare(img_path, out_path, n_worker, sizes=(114,480), resample=Image.BICUBIC, lmdb_save=False):
     resize_fn = partial(resize_worker, sizes=sizes,
                         resample=resample, lmdb_save=lmdb_save)
     files = [p for p in Path(
@@ -161,11 +161,11 @@ def prepare(img_path, out_path, n_worker, sizes=(16, 128), resample=Image.BICUBI
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--path', '-p', type=str,
-                        default='{}/Dataset/celebahq_256'.format(Path.home()))
+                        default='../depth_images'.format(Path.home()))
     parser.add_argument('--out', '-o', type=str,
-                        default='./dataset/celebahq')
+                        default='NyuV2_114_480')
 
-    parser.add_argument('--size', type=str, default='64,512')
+    parser.add_argument('--size', type=str, default='114,480')
     parser.add_argument('--n_worker', type=int, default=3)
     parser.add_argument('--resample', type=str, default='bicubic')
     # default save in png format
